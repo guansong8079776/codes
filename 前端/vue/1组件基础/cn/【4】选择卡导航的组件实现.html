@@ -15,12 +15,13 @@
   <div id="app" class="contener">
     下面会出现一个组件
     <cmp1 :num=number class="item"></cmp1>
+    <div>内容</div>
   </div>
 
   <!-- 定义模板内容,模板下只能有一个根元素 -->
   <template type="text/x-template" id="mytpl">
     <ul class="nav nav-tabs">
-      <li role="presentation" v-for="n in num" :class="[{'active' : current==n},'presentation']" @click="change(n)"><a>Hello</a></li>
+      <li role="presentation" v-for="n in num" @click="change(n)"><a>Hello</a></li>
     </div>
   </template>
   <script>
@@ -28,12 +29,10 @@
     var temp1 = {
       template: "#mytpl",
       props: ["num"],//定义参数【或者说定义组件的属性】
-      data:function(){
-        return {current:1}
-      },
+    
       methods:{
         change:function(n){
-          this.current = n;
+        
           console.log(n);
         }
       }

@@ -14,6 +14,7 @@
     <ul>
       <my-com></my-com>
     </ul>
+    <my-com2></my-com2>
   </div>
   <div id="app2">
     下面会出现一个组件
@@ -24,7 +25,7 @@
     <my-com2></my-com2>
   </div>
   <script>
-    // 全局注册定义组件,此组件可以出现在任何Vue对象的域内
+    // 全局注册自定义组件,此组件可以出现在任何Vue对象的域内
     Vue.component("myCom",{
       template:"<li>列表项</li>"
     });
@@ -35,6 +36,7 @@
       }
     });
 
+    //第二个Vue对象，在app2的域中可以使用全局注册的组件
     var mv2 = new Vue({
       el: "#app2",
       components:{ // 局部组件只能用在声明的域内

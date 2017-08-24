@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue组件测试</title>
+  <script src="../../common/js/vue.2.4.2.js"></script>
+  <link rel="stylesheet" href="../../common/css/bootstrap.css" />
+</head>
+<body>
+  <div id="app">
+    下面会放置组件
+    <m-nav @tab-change="showIndex" :x=num></m-nav>
+
+    <div>内容{{ message }}</div>
+  </div>
+
+  <template id="tp">
+    <ul class="nav nav-tabs">
+      <li v-for="n in x" @click="change(n)"><a href="#">选项卡</a></li>
+    </ul>
+  </template>
+
+  <script>
+    //定义组件
+    var com  = {
+      template:"#tp",
+      props:["x"],
+      data:function(){
+        return {
+          num: this.x
+          };
+      },
+      methods:{
+        change:function(index){
+          console.log(index);
+          //触发一个名称为tab-change的事件
+          this.$emit("tab-change",index);
+        }
+      }
+    }
+
+    //创建vue对象，并注册局部组件com
+    var vm = new Vue({
+      el:"#app",
+      data:{
+        num:5,
+        message:1
+      },
+      components:{
+        mNav:com
+      },
+      methods:{
+        showIndex:function(i){
+          this.message = i;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
