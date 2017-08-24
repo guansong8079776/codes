@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue组件测试</title>
+  <script src="../../../common/js/vue.2.4.2.js"></script>
+  <link rel="stylesheet" href="../../../common/css/bootstrap.css" />
+</head>
+
+<body>
+
+  <div id="app" class="contener">
+    下面会出现一个组件
+    <cmp1 :num=number class="item"></cmp1>
+  </div>
+
+  <!-- 定义模板内容,模板下只能有一个根元素 -->
+  <template type="text/x-template" id="mytpl">
+    <ul class="nav nav-tabs">
+      <li role="presentation" v-for="n in num" :class="[{'active' : current==n},'presentation']" @click="change(n)"><a>Hello</a></li>
+    </div>
+  </template>
+  <script>
+    // 定义一个组件，模板使用id为mytpl的标签中的内容
+    var temp1 = {
+      template: "#mytpl",
+      props: ["num"],//定义参数【或者说定义组件的属性】
+      data:function(){
+        return {current:1}
+      },
+      methods:{
+        change:function(n){
+          this.current = n;
+          console.log(n);
+        }
+      }
+    }
+    // 定义vue对象
+    var vm = new Vue({
+      el: "#app",//挂载点
+      data:{
+        number:10,
+        current:1
+      },
+      components: { //内部组件
+        cmp1: temp1
+      }
+    });
+  </script>

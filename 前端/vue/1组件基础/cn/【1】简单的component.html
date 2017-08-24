@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>组件的全局注册和局部注册</title>
+  <script src="../../../common/js/vue.2.4.2.js"></script>
+  <link rel="stylesheet" href="../../../common/css/bootstrap.css" />
+</head>
+<body>
+  <div id="app" class="contener">
+    下面会出现一个组件
+    <ul>
+      <my-com></my-com>
+    </ul>
+  </div>
+  <div id="app2">
+    下面会出现一个组件
+    <ol>  <!--全局注册的组件可以在任何vue域内使用 -->
+          <my-com></my-com>
+    </ol>
+    <!-- 局部组件只能用在声明的域内 -->
+    <my-com2></my-com2>
+  </div>
+  <script>
+    // 全局注册定义组件,此组件可以出现在任何Vue对象的域内
+    Vue.component("myCom",{
+      template:"<li>列表项</li>"
+    });
+    var mv = new Vue({
+      el:"#app",
+      data:{
+        count:10
+      }
+    });
+
+    var mv2 = new Vue({
+      el: "#app2",
+      components:{ // 局部组件只能用在声明的域内
+        myCom2:{  // 局部注册的组件
+          template:"<p>这个组件中的内容</p>"
+        }
+      }
+    });
+  </script>
+</body>
+</html>
