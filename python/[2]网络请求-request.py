@@ -1,5 +1,6 @@
+#coding=utf-8
 # 导入url包
- import urllib2 
+import urllib2 
 # 创建一个request对象
 request = urllib2.Request("http://www.baidu.com")
 # 发送请求
