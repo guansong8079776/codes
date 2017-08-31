@@ -20,7 +20,7 @@
   <!-- 定义模板内容,模板下只能有一个根元素 -->
   <template type="text/x-template" id="mytpl">
     <ul class="nav nav-tabs">
-      <li role="presentation" v-for="n in total" :class="[{'active' : current==n},'presentation']" @click="change(n)"><a>Hello</a></li>
+      <li role="presentation" v-for="n in total" :class="{'active' : current==n}" @click="change(n)"><a>Hello</a></li>
     </div>
   </template>
   <script>
@@ -42,7 +42,6 @@
           this.current = n;
           // 手动触发一个自定义事件
           this.$emit("tabchange",this.current);
-          this.addOne();
         }
       }
     }
@@ -58,7 +57,7 @@
       },
       methods:{
         dosomthing:function(index){
-          alert(index);
+          console.log(index);
         }
       }
     });
