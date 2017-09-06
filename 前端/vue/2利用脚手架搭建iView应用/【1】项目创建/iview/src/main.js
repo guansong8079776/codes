@@ -11,7 +11,7 @@ import 'iview/dist/styles/iview.css';
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
-Vue.use(iView);
+Vue.use(iView); 
 
 
 
