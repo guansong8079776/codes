@@ -150,7 +150,7 @@
       <option name="presentableId" value="Default" />
       <updated>1504686368217</updated>
       <workItem from="1504686435930" duration="3534000" />
-      <workItem from="1504773189408" duration="814000" />
+      <workItem from="1504773189408" duration="1051000" />
     </task>
     <task id="LOCAL-00001" summary="redis实例:pub/sub">
       <created>1504690383885</created>
@@ -208,11 +208,18 @@
       <option name="project" value="LOCAL" />
       <updated>1504773996901</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="redis实例:pub/sub">
+      <created>1504774012032</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1504774012032</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4348000" />
+    <option name="totallyTimeSpent" value="4585000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="205" y="100" width="1346" height="688" extended-state="0" />
