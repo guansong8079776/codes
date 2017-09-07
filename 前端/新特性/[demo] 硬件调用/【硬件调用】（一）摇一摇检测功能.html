@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 检测是否支持摇一摇 - 独行冰海 梦幻雪冰</title>
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script src="../common/jquery-1.8.3.min.js" charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+	<div class="wrap"></div>
+	<script>
+		if (window.DeviceMotionEvent) {
+			alert("您的设备支持硬件调用");
+		} else {
+			alert("您的设备不支持硬件调用");
+		}
+
+		// 实现思路：
+		// 绑定devicemotion事件
+		// 通过accelerationIncludingGravity获取重力加速度
+		// 在一定时间段内将当前的x,y,z值与之前的值进行比较，如果超过某一个临界值，则确定进行了“摇动”（临界值的设置目的在于防止系统认为简单的变化也是在摇动手机）
+
+	</script>
+</body>
+</html>

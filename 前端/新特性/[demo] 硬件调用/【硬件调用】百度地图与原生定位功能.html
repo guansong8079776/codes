@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 百度地图浏览器地位功能 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+	<style>
+		html, body, .wrap {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="allmap"></div>
+	<script>
+		var geo = navigator.geolocation;
+		var geoc = new BMap.Geocoder();
+		    geo.getCurrentPosition(function(pos){
+		    var lon = pos.coords.longitude; // 经度
+		    var lat = pos.coords.latitude;  // 纬度 
+		    // 纠偏回调函数
+		    translateCallback = function (point) { 
+			    var map = new BMap.Map("allmap");
+			    map.centerAndZoom(point, 25);
+			    var marker = new BMap.Marker(point);  // 创建标注
+			    map.addOverlay(marker);   // addOverlay添加覆盖物，将标注添加到地图中 
+			   	// 缩放地图
+		    	map.enableScrollWheelZoom(true); 
+				geoc.getLocation(point, function(rs){
+					var addComp = rs.addressComponents;
+					alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+				});  
+		    }
+		    // 调用百度接口，进行纠偏
+		    BMap.Convertor.translate(new BMap.Point(lon, lat), 0, translateCallback);  
+		},function(error){
+			if (error.code == error.PERMISSION_DENIED) { 
+				// 用户拒绝 denied拒绝
+				alert("用户拒绝" + error.code);
+			};
+			if (error.code == error.POSITION_UNAVAILABLE) { 
+				// 无法获取 unavailable 
+				alert("无法获取" + error.code);
+			};
+			if (error.code == error.TIMEOUT) {
+				// 超时
+				alert("超时" + error.code);
+			};
+			if (error.code == error.UNKNOWN_ERROR) {
+				// 未知错误
+				alert("未知错误" + error.code);
+			};
+		});
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 百度地图浏览器地位功能 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+	<style>
+		html,
+		body,
+		.wrap {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="allmap"></div>
+	<script>
+		function position(){
+			var geo = navigator.geolocation;
+			    geo.getCurrentPosition(function(pos){
+			    var lon = pos.coords.longitude; // 经度
+			    var lat = pos.coords.latitude;  // 纬度 
+
+			    // 纠偏回调函数
+			    translateCallback = function (point) { 
+				    var map = new BMap.Map("allmap");
+				    map.centerAndZoom(point, 16);
+				    var marker = new BMap.Marker(point);  // 创建标注
+				    map.addOverlay(marker);   // addOverlay添加覆盖物，将标注添加到地图中 
+				   	// 缩放地图
+			    	map.enableScrollWheelZoom(true); 
+
+					var circle = new BMap.Circle(point,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+				    map.addOverlay(circle);
+				    var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});  
+				    var bounds = getSquareBounds(circle.getCenter(),circle.getRadius());
+				    local.searchInBounds("餐馆",bounds); 
+			   
+				    /**
+				     * 得到圆的内接正方形bounds
+				     * @param {Point} centerPoi 圆形范围的圆心
+				     * @param {Number} r 圆形范围的半径
+				     * @return 无返回值   
+				     */ 
+				    function getSquareBounds(centerPoi,r){
+				        var a = Math.sqrt(2) * r; //正方形边长
+				      
+				        mPoi = getMecator(centerPoi);
+				        var x0 = mPoi.x, y0 = mPoi.y;
+				     
+				        var x1 = x0 + a / 2 , y1 = y0 + a / 2;//东北点
+				        var x2 = x0 - a / 2 , y2 = y0 - a / 2;//西南点
+				        
+				        var ne = getPoi(new BMap.Pixel(x1, y1)), sw = getPoi(new BMap.Pixel(x2, y2));
+				        return new BMap.Bounds(sw, ne);        
+				        
+				    }
+				    //根据球面坐标获得平面坐标。
+				    function getMecator(poi){
+				        return map.getMapType().getProjection().lngLatToPoint(poi);
+				    }
+				    //根据平面坐标获得球面坐标。
+				    function getPoi(mecator){
+				        return map.getMapType().getProjection().pointToLngLat(mecator);
+				    }
+			    }
+			    // 调用百度接口，进行纠偏
+			    BMap.Convertor.translate(new BMap.Point(lon, lat), 0, translateCallback);  
+			});			
+		}
+		(function(){
+		    // 监听运动传感事件，查看是否支持硬件运动
+		    if (window.DeviceMotionEvent) {
+		      window.addEventListener('devicemotion', deviceMotionHandler, false);
+		    }else{
+		      alert('您的设备不支持硬件运动');
+		      return;
+		    }
+
+		    // 变量初始化
+		    var SHAKE_THRESHOLD = 600;  // 设定摇晃的阈值为800 threshold
+		    var lastUpdate = 0;
+		    var x, y, z, lastX, lastY, lastZ, curTime, diffTime, speed, acceleration;
+		    
+		    // 只要硬件发生运动，那么就执行这个函数
+		    function deviceMotionHandler(eventData) {
+		      //获取重力加速度
+		      acceleration = eventData.accelerationIncludingGravity;
+		      curTime = new Date().getTime();
+		      if ((curTime - lastUpdate) > 100) {
+		        diffTime = (curTime - lastUpdate);
+		        lastUpdate = curTime;
+
+		        // 重力加速度中的三个轴的值
+		        x = acceleration.x;
+		        y = acceleration.y;
+		        z = acceleration.z;
+
+		        speed = Math.abs(x+y+z-lastX-lastY-lastZ) / diffTime * 8000;
+		        // 如果达到阈值则提示信息
+		        if (speed > SHAKE_THRESHOLD) {
+		          // alert("实现了摇一摇效果哦");
+		          // alert(speed);
+		          position();
+		        }     
+		        lastX = x;
+		        lastY = y;
+		        lastZ = z;
+		      } 
+		    }
+		  })();
+	</script>
+</body>
+</html>

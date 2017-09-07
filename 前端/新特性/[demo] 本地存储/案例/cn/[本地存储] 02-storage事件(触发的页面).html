@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>HTML5Course</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" />
+    <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        .wrap {
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap"></div>
+    <script type="text/javascript">
+    // storage事件
+    // 当一个域名下的本地存储被修改后，这个事件就触发（跨窗口触发，不能跨浏览器触发）
+    var wrap = $(".wrap");
+    $(window).on("storage", function() {
+        if(window.localStorage) {
+            var ls = window.localStorage;
+            wrap.css({
+                width: ls.getItem("size") + "px",
+                height: ls.getItem("size") + "px"
+            })
+        }
+    })
+    </script>
+</body>
+</html>

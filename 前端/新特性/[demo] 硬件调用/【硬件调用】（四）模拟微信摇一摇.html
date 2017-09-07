@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 模拟微信摇一摇 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<script src="../common/jquery-1.8.3.min.js" charset="utf-8" type="text/javascript"></script>
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<style>
+		html,
+		body {
+			height: 100%;
+		}
+		.wrap {
+			position: relative;
+			height: 100%;
+			background: #292d2e;
+		}
+		.wrap div {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin: -97px 0 0 -95px;
+			width: 190px;
+			height: 194px;
+			background: url("hand.png");
+			-webkit-animation: move infinite 2s;
+		}
+    
+	    @-webkit-keyframes "move" {
+	        0% {
+	            -webkit-transform: rotate(0);
+	               -moz-transform: rotate(0);
+	                -ms-transform: rotate(0);
+	                 -o-transform: rotate(0);
+	                    transform: rotate(0); }
+	        50% {
+	            -webkit-transform: rotate(15deg);
+	               -moz-transform: rotate(15deg);
+	                -ms-transform: rotate(15deg);
+	                 -o-transform: rotate(15deg);
+	                    transform: rotate(15deg); }
+	        100% {
+	            -webkit-transform: rotate(0);
+	               -moz-transform: rotate(0);
+	                -ms-transform: rotate(0);
+	                 -o-transform: rotate(0);
+	                    transform: rotate(0); }
+	    }
+
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div></div>
+		<audio  id="aud"  autoplay controls>
+			<source src="weixin.mp3"></source>
+		</audio>
+	</div>
+	<script>
+
+		window.onload = function(){
+			var count = 0;
+			if (window.DeviceMotionEvent) {
+				// 每隔0.1秒检测一下当前的x,y,z值
+				window.addEventListener('devicemotion', deviceMotionHandler, false);
+			} else {
+				alert("您的设备不支持硬件调用");
+			}
+
+			var curTime  = 0;
+			var lastTime = 0;
+			var diffTime = 0;
+			var x        = 0;
+			var y        = 0;
+			var z        = 0;
+			var lastX    = 0;
+			var lastY    = 0;
+			var lastZ    = 0;
+			var SHAKE_THRESHOLD = 800;  // 设定摇晃的阈值为600 运行相应操作
+			var aud = document.getElementById("aud");
+
+			function deviceMotionHandler(eventData){
+				// acceleration加速度
+				var acceleration = eventData.accelerationIncludingGravity;
+
+				// 在一段时间内获取三个方向重力加速度的差值
+				// curTime  300  400
+				// lastTime 0    300
+
+				// 获取当前时间
+				curTime = new Date().getTime();
+				if (curTime - lastTime > 100) {
+					// 计算出时间断
+					diffTime = curTime - lastTime;
+					// 记录上一次的时间
+					lastTime = curTime;
+
+					// 获取当前的三个方向的值
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+
+					// 计算速度，为了防止出现负数，进行绝对值
+					speed = Math.abs((x + y + z - lastX - lastY - lastZ) / diffTime * 10000);
+
+					// 调用音效
+					if (speed > 500) {
+						// alert("播放");
+						count++;
+						if (count == 1) {
+							aud.play();
+						};
+					};
+
+					if (speed > SHAKE_THRESHOLD) {
+						alert("实现了摇一摇");
+						count = 0;
+					};
+
+					// 记录上一次三个方向的值
+					lastX = x;
+					lastY = y;
+					lastZ = z;
+
+				};
+			}
+			// aud.load();
+			// aud.currentTime = 0;
+			// aud.play();			
+		}
+		$(".wrap div").click(function(){
+			aud.play();
+		});
+	</script>
+</body>
+</html>
