@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket测试</title>
+</head>
+<body>
+
+    <div id="message">
+        连接打开后，你可以向服务器发送：<ul><li>你好</li><li>天王盖地虎</li><li>今天天气</li></ul>这三条消息，服务器会自动答复，如果超过1分钟不进行任何操作，服务器会断开socket连接<br/>
+    </div>
+    <hr/>
+    <label>发送消息：<input type="text" id="txtmsg"><input type="button" value="send" id="btnsend"></label>
+
+    <script>
+        // 打开一个 web socket
+        var ws = new WebSocket("wss://guansir.com.cn/ws");
+        /**
+         * 服务器连接完成事件，在连接成功后就可以调用send方法发送数据到服务器了
+         */
+        ws.onopen = function()
+        {
+            showMessage("服务器已连接，等待数据发送。。。");
+        };
+        /**
+         * 接收消息事件，服务器每次发送数据，都将触发此事件
+         * @param evt 包含消息的 MessageEvent 对象
+         */
+        ws.onmessage = function (evt)
+        {
+            console.log(evt);
+            var received_msg = evt.data;
+            showMessage("接收消息：" + evt.data);
+        };
+
+        ws.onclose = function()
+        {
+            // 关闭 websocket
+           showMessage("连接已关闭！");
+        };
+
+        //点击发送按钮的事件处理函数
+        btnsend.onclick = function(){
+            console.log(ws.readyState);
+            sendMessage(txtmsg.value);
+        }
+        //发送消息的方法，在点击 send 按钮时可以调用
+        function  sendMessage(msg){
+            ws.send(msg);
+            message.innerHTML += "发送消息：" + msg + "<br/>";
+        }
+
+        //将收发的消息显示在 div 中
+        function  showMessage(msg){
+            message.innerHTML +=  msg + "<br/>";
+        }
+    </script>
+</body>
+</html>
