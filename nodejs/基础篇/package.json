@@ -1,0 +1,13 @@
+{
+  "name": "",
+  "version": "",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "scripts": {
+    "start": "node page1.js",
+    "build": "babel src -d app"
+  }
+}
