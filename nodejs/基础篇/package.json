@@ -1,0 +1,33 @@
+{
+  "name": "",
+  "version": "",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "start": "node ./src/page1.js",
+    "startApp": "node ./app/page2.js",
+    "build": "babel src -d app",
+    "tra": "browserify src/page2.js -o app/page2.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^14.5.0"
+  }
+}

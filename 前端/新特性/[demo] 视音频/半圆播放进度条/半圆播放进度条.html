@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 半圆播放进度条 - 独行冰海 梦幻雪冰</title>
+	<link rel="stylesheet" href="../common/reset.css">
+	<style>
+		html,body{
+			background: #000;
+		}
+		.play_audio{
+			position: relative;
+			margin: 200px auto 0;
+			width: 200px;
+		    height: 200px;
+		}
+		.audio_btn{
+			position: absolute;
+			width: 200px;
+		    height: 200px;
+			background: url('images/play.png') 0 0 no-repeat;
+			z-index: 100;
+		}
+		.progress_box, .progress {
+		    width: 198px;
+		    height: 198px;
+		    clip: rect(0 200px 98px 0);/*CSS2.1属性*/
+		    border-radius: 198px;
+		}
+		 .progress_box {
+		    position: absolute;
+		    overflow: hidden;
+		    background: rgb(255, 255, 255);
+		    opacity: 0.8;
+		    z-index: 98;
+		}
+		.progress {
+		    display: block;
+		    position: absolute;
+		    background: rgb(127, 255, 255);
+		    -webkit-transform: rotate(180deg);
+		}
+	</style>
+</head>
+<body>
+	<audio id='music'>
+		<!-- mp3和aac的音频文件不被支持-->
+		<source src='梦中的婚礼.ogg'></source>
+  	</audio>
+	<div class='play_audio' id='play_audio'>
+		<span class="progress_box">
+		    <i id='progress' class="progress"></i>
+		</span>
+		<span id='audio_btn' class='audio_btn'></span>
+	</div>
+</body>
+<script>
+	(function(){
+		var audioIcon = document.getElementById('play_audio'),
+			audioBtn = document.getElementById('audio_btn'),
+			progress = document.getElementById('progress'),
+			music = document.getElementById('music'),
+			control = true,
+			rotateDeg = 180,
+			timer = null;
+
+		audioIcon.onclick = function(){
+
+			// 检测当前播放状态，如果是暂停或停止状态，则开始播放
+			if (control) {
+				
+				audioBtn.style.background = 'url(images/pause.png) 0 0 no-repeat';
+				music.play();
+				control = false;
+				
+				if(timer){
+					clearInterval(timer);
+				}
+				timer = setInterval(changeRotate,200);
+
+				/*
+				 * 计算比例，用百分比换算为度数。总共180度,计算出进度块需要旋转的角度
+				 * 进行检测是否播放完成，如果播放完成，则重置播放器
+				 *
+				 */
+				function changeRotate(){
+					
+					rotateDeg = music.currentTime/music.duration*180+180;
+					progress.style.webkitTransform = 'rotate('+ rotateDeg +'deg)';
+
+					if (music.ended) {
+						clearInterval(timer);
+						audioBtn.style.background = 'url(images/play.png) 0 0 no-repeat';
+						rotateDeg = 180;
+						progress.style.webkitTransform = 'rotate('+ rotateDeg +'deg)';
+						control = true;
+					};
+				}
+			}else{	//如果为播放状态，则暂停播放
+
+				if(timer){
+					clearInterval(timer);
+				}
+
+				audio_btn.style.background = 'url(images/play.png) 0 0 no-repeat';
+				music.pause();
+				control = true;
+			};
+		}
+	})();
+</script>
+</html>

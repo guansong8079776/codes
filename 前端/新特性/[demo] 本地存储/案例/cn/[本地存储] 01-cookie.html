@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>本地存储</title>
+        <link rel="stylesheet" type="text/css" href="../css/reset.css" />
+    </head>
+    <body>
+        <div>
+            
+        </div>
+        <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript">
+        // // 设置cookie
+        // document.cookie = "username=xxx";
+        // document.cookie = "username1=zhihua";
+        // // 设置cookie时间戳
+        // // 如何设置三天内有效？
+        // var day = 3 * 24 * 3600 * 1000;
+        // var data = new Date(day + new Date().getTime()).toGMTString();
+        // document.cookie = "username=zhihua;expires=" + data;
+
+        // // cookie的删除——时间戳
+        // var data = new Date().toGMTString();
+        // document.cookie = "username=zhihua;expires=" + data;
+
+        // // 如果未设置cookie的时间戳，保存多久？
+        // // 默认下（不设置）：用户关闭浏览器时即销毁cookie
+        // // 加了时间戳，保存于硬盘文件夹。
+         
+        // // 获取cookie
+        // console.log(document.cookie);
+
+        // // HTML5本地存储
+        // // localStorage：永久性存储数据，除非用户删除
+        // // sessionStorage：临时存储，关掉页面就消失
+        
+        // // 支持程度？
+        
+        // if(window.localStorage) {
+        //     var ls = window.localStorage;
+        //     // 保存数据
+        //     ls.setItem("age", "www");
+        //     ls.setItem("name", "sss");
+        //     console.log(ls.getItem("name"));
+        // }
+
+        // // 如何获取当前域名下的所有本地存储的key
+        // var ls = window.localStorage;
+        // for (var i = 0; i < ls.length; i++) {
+        //     console.log(ls.key(i));//获取本地的key
+        //     console.log(ls.getItem(ls.key(i)));//获取本地的value
+        // };
+        
+        // // 如何删除本地存储，根据key删除
+        // ls.removeItem("name");
+        // // 如何删除所有？
+        // ls.clear();
+        
+        var ls = window.localStorage;
+        var obj = {
+            "name": "xxx",
+            "age": 20
+        }
+        ls.setItem("people", JSON.stringify(obj));
+        // 本地存储保存的是字符串
+        console.log(ls.getItem("people"));//string
+        var peo = JSON.parse(ls.getItem("people"));
+        console.log(peo.name);
+        </script>
+    </body>
+</html>!

@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 音频播放器 - 独行冰海 梦幻雪冰</title>
+	<link rel="stylesheet" href="css/music.css">
+</head>
+<body>
+	<div class='music' id='music'>
+		<div class='warpper'>
+			<ul class='tit' id='tit'>
+				<li>歌曲名称</li>
+				<li>歌曲名称</li>
+				<li>歌曲名称</li>
+				<li>歌曲名称</li>
+				<li>歌曲名称</li>
+			</ul>
+			<div class='con'>
+				<audio id='audioMusic' src='sourse/zf.ogg'></audio>
+				<div class='btn'>
+					<div class="progress_box">
+					    <div id='progress' class="progress"></div>
+					</div>
+					<div id='audioBtn' class='audio_btn play'></div>
+				</div>
+				<div class='music_inf'>
+					<dl>
+						<dt><img id='audioPic' src="" alt=""></dt>
+						<dd><h1 id='audioTit'></h1></dd>
+						<dd><p id='audioInf'></p></dd>
+					</dl>
+				</div>
+				<div class='music_lrc'>
+					<p id='audioLrc'></p>
+				</div>
+				<div class="scroll" id='scrollRange'>
+					<div id='scrollBar'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src='js/music.js'></script>
+</html>

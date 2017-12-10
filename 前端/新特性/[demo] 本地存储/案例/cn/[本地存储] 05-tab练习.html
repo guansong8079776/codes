@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../css/reset.css" />
+        <title>tab</title>
+        <style type="text/css">
+            .wrap {
+                width: 300px;
+                height400px;
+            }
+            .wrap .tit {
+                width: 300px;
+                height: 100px;
+            }
+            .tit span {
+                float: left;
+                display: block;
+                width: 100px;
+                height: 100px;
+                font-size: 20px;
+                text-align: center;
+                line-height: 100px;
+                background-color: skyblue;
+            }
+            .tit .sel {
+                background-color: yellow;
+            }
+            .wrap .con {
+                width: 300px;
+                height: 300px;
+            }
+            .con div {
+                display: none;
+                width: 300px;
+                height: 300px;
+                font-size: 20px;
+                text-align: center;
+                background-color: pink;
+            }
+            .con .select {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="tit" id="tit">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+            </div>
+            <div class="con">
+                <div class="select">11111</div>
+                <div>22222</div>
+                <div>33333</div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript">
+            var ls = window.localStorage;
+            if(ls){
+                var num = ls.getItem("number");
+                console.log(num);
+                if(num == null){
+                    $("#tit span").eq(0).addClass("sel").siblings().removeClass("sel").parent().siblings().children("div").eq(0).addClass("select").siblings().removeClass("select");   
+                }
+                $("#tit span").each(function(index){
+                    $(this).click(function(){
+                        $(this).addClass("sel").siblings().removeClass("sel").parent().siblings().children("div").eq(index).addClass("select").siblings().removeClass("select");       
+                        ls.setItem("number", index);
+                    })   
+                    num = $(this).attr("sel") == true?index:num;
+                    if(index == num){
+                        $(this).addClass("sel").parent().siblings().children().eq(index).addClass("select").siblings().removeClass("select");
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

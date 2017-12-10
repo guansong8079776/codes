@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 路线导航 - 独行冰海 梦幻雪冰</title>
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script src="../common/jquery-1.8.3.min.js" charset="utf-8" type="text/javascript"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+</head>
+<body>
+	<div class="wrap">
+		起点<input type="text" name="" id="" value="集美大学">
+		终点<input type="text" name="" id="" value="厦门大学">
+		<input type="button" value="回家吧~">
+		<ul></ul>
+	</div>
+	<script>
+		var script     = document.createElement('script');
+		$(".wrap input").click(function(){
+			var start = $(".wrap input").eq(0).val();
+			var end   = $(".wrap input").eq(1).val();
+			script.src = "http://api.map.baidu.com/direction/v1?mode=transit&origin="+start+"&destination="+end+"&region=厦门&output=json&ak=iK8fjVzLngpY0s4lRSv0x6HY&callback=update";
+			document.body.appendChild(script);
+		});
+		function update(data){
+			console.log(data);
+			$(".wrap ul").html(" ");
+			// for (var i = 0; i < data.result.destination.content.length; i++) {
+			// 	$("<li>" + data.result.destination.content[i].address + "</li>").appendTo(".wrap ul");
+			// };
+
+		}
+	</script>
+</body>
+</html>

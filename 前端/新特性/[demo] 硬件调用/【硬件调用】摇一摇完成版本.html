@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - devicemotion事件 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script src="../common/jquery-1.8.3.min.js" charset="utf-8" type="text/javascript"></script>
+	<style>
+		html,
+		body {
+			height: 100%;
+		}
+		.wrap {
+			height: 100%;
+			background: yellow;
+			font-size: 2em;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="con"></div>
+	<script>
+		// 实现思路：
+		// 检测设备是否支持重力传感
+		// 绑定运动传感（devimotion）事件
+		// 根据devimotion事件对象，获取三个方向的重力加速度
+		// 为了防止系统认为简单的变化也是在摇动手机，所以在每隔一段时间进行三个方向值的计算
+		// 当计算的该值大于预定的值，执行相应的操作
+
+		var con = document.getElementById("con");
+
+		(function(){
+			// 监听运动传感事件，查看是否支持硬件运动
+			if (window.DeviceMotionEvent) {
+				window.addEventListener('devicemotion', deviceMotionHandler, false);
+			} else {
+				alert("您的设备不支持硬件调用");
+			}
+
+			// 变量初始化
+			var x = 0, 
+			    y = 0, 
+			    z = 0, 
+				lastX = 0, 
+				lastY = 0, 
+				lastZ = 0, 
+				curTime = 0,
+				lastTime = 0,
+				diffTime = 0,
+				speed = 0;
+
+			// 设置一个阀值
+			var SHAKE_THRESHOLD = 800;  // 设定摇晃的阈值为600 运行相应操作
+
+			/*
+			 * 功能：测算三个方向重力加速度，达到一定值进行相应操作
+			 *
+			 *
+			 */
+			function deviceMotionHandler(eventData){
+				var acceleration = eventData.accelerationIncludingGravity;
+
+				// 获取当前时间
+				curTime = new Date().getTime();
+				// 计算时间差，当这个差值大于一定值执行计算三个方向的速度
+				if ((curTime - lastTime) > 100) {
+					// 记录上一次的时间
+					diffTime = curTime - lastTime;
+					lastTime = curTime;
+
+					// 获取当前三个方向的值
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
+
+					// 计算速度，为了防止出现负数，进行绝对值
+					speed = Math.abs((x + y + z - lastX - lastY - lastZ) / diffTime * 8000);
+					if (speed > SHAKE_THRESHOLD) {
+						alert("我实现摇一摇了");
+					};
+
+					// 记录上一次三个方向的值
+					lastX = x;
+					lastY = y;
+					lastZ = z;					
+				};
+			}
+		})();
+	</script>
+</body>
+</html>

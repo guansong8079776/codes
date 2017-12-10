@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 获取重力加速度 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script src="../common/jquery-1.8.3.min.js" charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+	<div class="wrap"></div>
+	<script>
+		if (window.DeviceMotionEvent) {
+			// 每隔0.1秒检测一下当前的x,y,z值
+			window.addEventListener('devicemotion', deviceMotionHandler, false);
+		} else {
+			alert("您的设备不支持硬件调用");
+		}
+
+		function deviceMotionHandler(eventData){
+			// acceleration加速度
+			var acceleration = eventData.accelerationIncludingGravity;
+			$(".wrap")[0].innerHTML = acceleration.x + " " + acceleration.y + " " +  acceleration.z;
+
+
+		}
+	</script>
+</body>
+</html>

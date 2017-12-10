@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>sean Shi</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" />
+    <style type="text/css">
+        .tit {
+            width: 600px;
+            height:42px; 
+            border:1px solid #d3d3d3; 
+            background:#f7f7f7;
+        }
+        .tit li{
+            float:left;
+            width: 100px; 
+            height:42px;  
+            padding:0 10px;
+            line-height:42px; 
+            font-size:14px; 
+        }
+        .tit .select {
+            background: #ff0;
+        }
+        .con {
+            width: 600px;
+            height: 200px;
+            border: 1px solid red;
+        } 
+        .list{
+            display:none; 
+        }
+        .con .show {
+            display: block;
+        } 
+    </style>
+</head>
+<body>
+    <div class="tit"> 
+     <ul> 
+        <li>HTML/CSS</li> 
+        <li>Javascript</li> 
+        <li>JQuery</li> 
+        <li>前端</li> 
+        <li>HTML5</li> 
+    </ul> 
+    </div> 
+    <div class="con"> 
+        <div class="list show">1</div> 
+        <div class="list">2</div> 
+        <div class="list">3</div> 
+        <div class="list">4</div> 
+        <div class="list">5</div> 
+    </div>
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+        if(window.localStorage){ 
+        //如果浏览器支持localStorage 
+            var showNum = localStorage.getItem("num")
+            // if(showNum == null){ 
+            // //如果为空，即第一次打开 
+            // //将默认的第一个tab设置为选中状态并显示与其对应的list 
+            //     $(".tit ul li").eq(0).addClass("select").siblings().removeClass("select"); 
+            //     $(".list").eq(0).addClass("show").siblings().removeClass("show");
+            // } 
+            $(".tit ul li").each(function(index){
+                $(this).click(function(){  
+                    $(this).addClass("select").siblings().removeClass("select");
+                    $(".list").eq(index).addClass("show").siblings().removeClass("show");
+                    localStorage.setItem("num",index); //将TAB选中状态存储到本地 
+                });
+                showNum = $(this).attr("select")==true?index:showNum; //如果当前TAB被点击选中，则将showNum值设为当前的索引值 
+                if(index == showNum){ //如果当前索引值与存储的TAB状态值一致 
+                    $(this).addClass("select");  
+                    $(".list").eq(index).addClass("show").siblings().removeClass("show"); 
+                } 
+            })
+        }
+    </script> 
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - 百度地图ip地位功能 - 独行冰海 梦幻雪冰</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="../common/reset-normal.css">
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+	<style>
+		html,
+		body,
+		.wrap {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="allmap"></div>
+	<script>
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+
+
+		var script = document.createElement('script');
+		script.src="http://api.map.baidu.com/location/ip?ak=iK8fjVzLngpY0s4lRSv0x6HY&coor=bd09ll&callback=update";
+		document.body.appendChild(script);
+		function update(data){
+			var lon = data.content.point.x; // 经度
+		    var lat = data.content.point.y;  // 纬度 
+		    // 纠偏回调函数
+		    translateCallback = function (point) { 
+		    	console.log(point);
+			    var map = new BMap.Map("allmap");
+			    map.centerAndZoom(point, 25);
+			    var marker = new BMap.Marker(point);  // 创建标注
+			    map.addOverlay(marker);   // addOverlay添加覆盖物，将标注添加到地图中 
+			   	// 缩放地图
+		    	map.enableScrollWheelZoom(true); 
+		    }
+		    // 调用百度接口，进行纠偏
+		    BMap.Convertor.translate(new BMap.Point(lon, lat), 0, translateCallback);  
+		}
+
+	</script>
+</body>
+</html>
