@@ -12,7 +12,7 @@
 <body>
   <div id="app">
     下面会放置组件
-    <m-nav @tab-change="showIndex" :x=num></m-nav>
+    <m-nav @tab-change="showIndex" v-bind:x=num></m-nav>
 
     <div>内容{{ message }}</div>
   </div>
